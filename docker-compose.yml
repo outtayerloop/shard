@@ -1,0 +1,23 @@
+version: '3.4'
+networks:
+  db-network:
+    driver: bridge
+
+services:
+  microservice:
+    image: ${DOCKER_REGISTRY-}microservice
+    build:
+      context: .
+      dockerfile: MicroService/Dockerfile
+    networks:
+      - db-network
+
+  mongo:
+
+    image: mongo
+    networks:
+      - db-network
+    ports:
+      - 27017:27017
+    environment: 
+      MONGO_INITDB_DATABASE: shard
